@@ -22,6 +22,17 @@ else if (cookies.THEME == 2) link.href = 'style.blue.css';
 else link.href = 'style.css';
 head.appendChild(link);
 
+async function get_services2() {
+  const response = await fetch("/api/service/list?list=encrypted");
+  const services = await response.json();
+  let ret = {};
+  services.entries.forEach(function(r) {
+    if (r.text.includes('---')) return;
+    ret[r.uuid] = { "name": r.text, "encrypted": r.params[0].value };
+  });
+  return ret;
+}
+
 window.addEventListener('load',function() {
   var mytop=document.getElementById("mobmenu");
   mytop.addEventListener('click', function() {
